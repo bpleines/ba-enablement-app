@@ -1,7 +1,5 @@
 package com.redhat;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +9,6 @@ import org.jbpm.services.api.ProcessService;
 import org.jbpm.services.api.RuntimeDataService;
 import org.jbpm.services.api.UserTaskService;
 import org.jbpm.services.api.model.DeploymentUnit;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kie.api.builder.helper.FluentKieModuleDeploymentHelper;
@@ -25,7 +22,7 @@ import bitronix.tm.resource.jdbc.PoolingDataSource;
 
 @ContextConfiguration(locations = { "classpath:applicationContext.xml" })
 @ActiveProfiles("test")
-public class BpmTest extends AbstractJUnit4SpringContextTests {
+public class CopyOfBpmTest extends AbstractJUnit4SpringContextTests {
 
 	protected static final String GROUP_ID = "com.redhat";
 	protected static final String ARTIFACT_ID = "knowledge";
@@ -33,7 +30,6 @@ public class BpmTest extends AbstractJUnit4SpringContextTests {
 	protected static final DeploymentUnit DEPLOYMENT_UNIT = new KModuleDeploymentUnit(GROUP_ID, ARTIFACT_ID, VERSION);
 	protected static final String PROCESS_ID = "defaultPackage.Process"; // TODO this might be different for you
 
-	
 	@Autowired
 	protected ProcessService processService;
 	@Autowired
@@ -49,18 +45,7 @@ public class BpmTest extends AbstractJUnit4SpringContextTests {
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("StringVar", new String("test"));
-		
-		Business myBusiness = new Business();
-		myBusiness.setName("Red Hat");
-		myBusiness.setAddressLine1("512 Cobbleskill Lane");
-		myBusiness.setAddressLine2("Exton PA, 19341");
-		myBusiness.setPhoneNumber("555-5555-5555");
-		myBusiness.setCity("Exton");
-		myBusiness.setStateCode("NY");
-		myBusiness.setZipCode("19341");
-		myBusiness.setFederalTaxId("00000");
-		map.put("Business", myBusiness);
-		
+
 		processService.startProcess(DEPLOYMENT_UNIT.getIdentifier(), PROCESS_ID, map);
 	}
 
@@ -72,7 +57,6 @@ public class BpmTest extends AbstractJUnit4SpringContextTests {
 		
 		FluentKieModuleDeploymentHelper helper1 = KieModuleDeploymentHelper.newFluentInstance();
 		TestUtils.createDefaultKieBase(helper1);
-		helper1.setGroupId(GROUP_ID).setArtifactId(ARTIFACT_ID).setVersion(VERSION).addResourceFilePath("com/redhat/simple/Process.bpmn2", "com/redhat/simple/filter.drl", "com/redhat/simple/validate.drl", "com/redhat/simple/enrich.drl", "com/redhat/simple/queries.drl").createKieJarAndDeployToMaven();
-
+		helper1.setGroupId(GROUP_ID).setArtifactId(ARTIFACT_ID).setVersion(VERSION).addResourceFilePath("com/redhat/simple/Process.bpmn2").createKieJarAndDeployToMaven();
 	}
 }
