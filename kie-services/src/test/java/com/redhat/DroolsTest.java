@@ -19,7 +19,7 @@ public class DroolsTest {
 		facts.add(business);
 
 		// when
-		RuleResponse response = service.runRules(facts, "defaultPackage.Process", RuleResponse.class);
+		RuleResponse response = service.runRules(facts, "simple.Ruleflow", RuleResponse.class);
 
 		// then
 		Assert.assertNotNull(response);
